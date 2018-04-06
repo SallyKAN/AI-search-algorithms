@@ -20,6 +20,7 @@ public class Node {
     Node fifthChild;
     Node sixthChild;
     Node parentNode;
+    List<Integer> forbNumbers;
     public Node(){}
     public Node(int nodeNumbers){
         this.nodeNumbers = nodeNumbers;
@@ -60,8 +61,9 @@ public class Node {
     }
     static public Node GenerateChild(Node parentNode, String operation,int parentNodeNumber,int location) throws IOException {
         List<String> builder = new ArrayList<>();
-        for (int i = 0;i<String.valueOf(parentNodeNumber).length();i++) {
-            builder.add(String.valueOf(String.valueOf(parentNodeNumber).charAt(i)));
+        String formatted = String.format("%03d", parentNodeNumber);
+        for (int i = 0;i <formatted.length();i++) {
+            builder.add(String.valueOf(formatted.charAt(i)));
         }
         int digitNumber = Integer.valueOf(builder.get(location));
         if(operation.equals("sub") && (digitNumber!=0))
@@ -72,7 +74,14 @@ public class Node {
             return null;
         builder.set(location,String.valueOf(digitNumber));
         int returnInt = Integer.valueOf(String.join("",builder));
-        if(getForbidden().contains(returnInt)){
+//        System.out.println(builder.toString());
+//        StringBuilder bu = new StringBuilder();
+//        for (String s:builder){
+//            bu.append(s);
+//        }
+//        System.out.println(bu.toString());
+//        int returnInt = Integer.valueOf(bu.toString());
+        if(parentNode.forbNumbers.contains(returnInt)){
             return null;
         }
         Node childNode = new Node();
@@ -80,6 +89,7 @@ public class Node {
         childNode.setNodeNumbers(returnInt);
         childNode.setLastChanged(location);
         childNode.setLevel(parentNode.level + 1);
+        childNode.setForbNumbers(parentNode.forbNumbers);
         return childNode;
     }
     public ArrayList<Node> getChildren(){
@@ -147,23 +157,20 @@ public class Node {
     public int getTotalCost(Node startNode,Node goalNode)  {
         return this.getHeuristic(goalNode)+ this.getCostSoFar();
     }
-    static public List<Integer> getForbidden() throws IOException {
-        String forbStr = new String(Files.readAllBytes(Paths.get("Forbidden.txt")));
-        List<Integer> forbNumber = new ArrayList<>();
-        String[] forbStrs = forbStr.trim().split(",");
-        for(String str:forbStrs){
-            forbNumber.add(Integer.valueOf(str));
-        }
-        return forbNumber;
+    public List<Integer> getForbidden(){
+        return this.forbNumbers;
     }
     public void setNodeNumbers(int nodeNumbers){
         this.nodeNumbers = nodeNumbers;
     }
     public int getLastChanged(){ return lastChanged;}
     public void setLastChanged(int lastChanged){this.lastChanged = lastChanged;}
-
+    public void setForbNumbers(List<Integer> forbNumbers){
+        this.forbNumbers = forbNumbers;
+    }
     public void setParentNode(Node parentNode){this.parentNode = parentNode;}
     public void setLevel(int level){this.level = level;}
+    public int getLevel(){return this.level;}
     public Node getParentNode(){return this.parentNode;}
     public static void main(String[] agrs) throws CloneNotSupportedException {
         Node test = new Node(311);

@@ -24,7 +24,8 @@ public class BreadthFirstSearch extends AbstractSearch{
         ArrayList<Node> path = new ArrayList<>();
         queue.add(this.startNode);
         while (!queue.isEmpty()) {
-            Node current = queue.remove();
+//            System.out.println(queue.peek().nodeNumbers);
+            Node current = queue.poll();
             explored.add(current);
             if (current.nodeNumbers == (this.goalNode.nodeNumbers)) {
                 path.add(current);
@@ -43,19 +44,28 @@ public class BreadthFirstSearch extends AbstractSearch{
 
                 return true;
             } else {
-                try {
-                    current.generateChildren();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (current.getChildren().isEmpty()) {
+                    try {
+                        current.generateChildren();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                if (current.getChildren().isEmpty())
-                    return false;
-                else
-                    queue.addAll(current.getChildren());
+
+                queue.addAll(current.getChildren());
+//                if (current.nodeNumbers == 125)
+//                    try {
+//                        current.generateChildren();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                if(queue.size() > 864)
+//                    System.out.println(current.nodeNumbers);
             }
 
         }
-            return false;
+
+        return false;
 
     }
 }

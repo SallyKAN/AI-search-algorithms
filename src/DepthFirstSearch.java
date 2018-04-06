@@ -42,22 +42,22 @@ public class DepthFirstSearch extends AbstractSearch{
                 return true;
             }
             else {
-                try {
-                    current.generateChildren();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (current.getChildren().isEmpty()) {
+                    try {
+                        current.generateChildren();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                if (current.getChildren().isEmpty())
-                    return false;
-                else {
-//                    Collections.reverse(current.getChildren());
+
+//                   Collections.reverse(current.getChildren());
 //                    for (Node n:current.getChildren())
 //                    stack.push(n);
-                     ArrayList<Node> reverseChildren = current.getChildren();
-                      Collections.reverse(reverseChildren);
-                      stack.addAll(reverseChildren);
+                ArrayList<Node> reverseChildren = current.getChildren();
+                Collections.reverse(reverseChildren);
+                stack.addAll(reverseChildren);
 
-                }
+
             }
         }
     return false;
