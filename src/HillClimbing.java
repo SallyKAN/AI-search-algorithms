@@ -30,14 +30,8 @@ public class HillClimbing extends AbstractSearch {
                     current = current.getParentNode();
                 } while (current.getParentNode() != null);
                 Collections.reverse(path);
-                for (Node pa : path) {
-                    System.out.print(pa.nodeNumbers + ",");
-                }
-                System.out.println();
-                for (Node ex : explored) {
-                    System.out.print(ex.nodeNumbers + ",");
-                }
-
+                print(path);
+                print(explored);
                 return true;
             } else {
                 if (current.getChildren().isEmpty()) {
@@ -66,6 +60,13 @@ public class HillClimbing extends AbstractSearch {
             System.out.print(pa.nodeNumbers + ",");
         }
         return false;
+    }
+    public void print(ArrayList<Node> path) {
+        List<String> pathNumber = new ArrayList<>();
+        for (Node n : path) {
+            pathNumber.add(String.valueOf(n.nodeNumbers));
+        }
+        System.out.println(String.join(",",pathNumber));
     }
 }
 

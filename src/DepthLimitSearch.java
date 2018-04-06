@@ -58,8 +58,9 @@ public class DepthLimitSearch {
 
         }
         for (Node n : path) {
-            explored.add(n);
+            System.out.print(n.nodeNumbers+",");
         }
+        System.out.println();
         return false;
     }
 }

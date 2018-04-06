@@ -31,14 +31,8 @@ public class DepthFirstSearch extends AbstractSearch{
                     current = current.getParentNode();
                 }
                 Collections.reverse(path);
-                for (Node pa:path){
-                    System.out.print(pa.nodeNumbers+",");
-                }
-                System.out.println();
-                for(Node n:explored){
-                System.out.print(n.nodeNumbers+",");
-                }
-
+                print(path);
+                print(explored);
                 return true;
             }
             else {
@@ -61,6 +55,13 @@ public class DepthFirstSearch extends AbstractSearch{
             }
         }
     return false;
+    }
+    public void print(ArrayList<Node> path) {
+        List<String> pathNumber = new ArrayList<>();
+        for (Node n : path) {
+            pathNumber.add(String.valueOf(n.nodeNumbers));
+        }
+        System.out.println(String.join(",",pathNumber));
     }
 
 }

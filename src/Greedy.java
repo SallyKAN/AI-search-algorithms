@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public class Greedy extends AbstractSearch{
@@ -38,14 +39,8 @@ public class Greedy extends AbstractSearch{
                     current = current.getParentNode();
                 }while (current.getParentNode() != null);
                 Collections.reverse(path);
-                for (Node pa:path){
-                    System.out.print(pa.nodeNumbers+",");
-                }
-                System.out.println();
-                for (Node ex : explored) {
-                    System.out.print(ex.nodeNumbers+",");
-                }
-
+                print(path);
+                print(explored);
                 return true;
             }else {
                 if (current.getChildren().isEmpty())
@@ -60,10 +55,16 @@ public class Greedy extends AbstractSearch{
                 ArrayList<Node> reverseChildren = current.getChildren();
                 Collections.reverse(reverseChildren);
                 nodeStack.addAll(current.getChildren());
-
             }
 
         }
         return false;
+    }
+    public void print(ArrayList<Node> path) {
+        List<String> pathNumber = new ArrayList<>();
+        for (Node n : path) {
+            pathNumber.add(String.valueOf(n.nodeNumbers));
+        }
+        System.out.println(String.join(",",pathNumber));
     }
 }

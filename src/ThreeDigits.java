@@ -52,18 +52,15 @@ public class ThreeDigits {
             }
             else if (args[0].equals("G")){
                 Greedy gr = new Greedy(startNode,goalNode);
-                if(gr.compute())
-                    System.out.print("Path Found!");
+                gr.compute();
             }
             else if (args[0].equals("H")){
                 HillClimbing hi = new HillClimbing(startNode,goalNode);
-                if (hi.compute())
-                    System.out.print("Path Found!");
+                hi.compute();
             }
             else if (args[0].equals("A")){
                 AStar as = new AStar(startNode,goalNode);
-                if (as.compute())
-                    System.out.print("Path Found!");
+                as.compute();
             }
         }
 
