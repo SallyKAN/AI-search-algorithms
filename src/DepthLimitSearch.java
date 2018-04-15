@@ -11,14 +11,11 @@ public class DepthLimitSearch {
     int depth;
     int limit;
     boolean isFound = false;
-    ArrayList<Node> totalExplored;
 
-    public DepthLimitSearch(Node startNode, Node goalNode, int limit, ArrayList<Node>
-                            totalExplored) {
+    public DepthLimitSearch(Node startNode, Node goalNode, int limit) {
         this.startNode = startNode;
         this.goalNode = goalNode;
         this.limit = limit;
-        this.totalExplored = totalExplored;
     }
 
     public ArrayList<Node> compute() {
@@ -34,9 +31,6 @@ public class DepthLimitSearch {
 //                if (!current.isRepeated(explored)) {
 //                    explored.add(current);
 //                }
-//                if (!current.isRepeated(exploredOnce)) {
-//                    exploredOnce.add(current);
-//                }
                 exploredOnce.add(current);
                 if (current.nodeNumbers == goalNode.nodeNumbers) {
                     path.add(current);
@@ -45,9 +39,7 @@ public class DepthLimitSearch {
                         current = current.getParentNode();
                     } while (current.getParentNode() != null);
                     Collections.reverse(path);
-                    if ((totalExplored.size()+exploredOnce.size()) <= 1000) {
-                        print(path);
-                    }
+                    print(path);
                     isFound = true;
                     return exploredOnce;
 

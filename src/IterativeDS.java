@@ -22,20 +22,15 @@ public class IterativeDS extends AbstractSearch {
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         while (true){
-            DepthLimitSearch dls = new DepthLimitSearch(startNode,goalNode,limit,explored);
+            DepthLimitSearch dls = new DepthLimitSearch(startNode,goalNode,limit);
             for (Node n:dls.compute()){
                 explored.add(n);
             }
-            if (explored.size()<=1000){
-                if(dls.isFound){
-                    print(explored);
-                    return true;
-                }
-                limit++;
-            }else {
-                noSolutionPrint(explored);
-                return false;
+            if(dls.isFound){
+                print(explored);
+                return true;
             }
+            limit++;
         }
     }
     public void print(ArrayList<Node> path) {
@@ -45,15 +40,5 @@ public class IterativeDS extends AbstractSearch {
             pathNumber.add(formatted);
         }
         System.out.println(String.join(",",pathNumber));
-    }
-    public void noSolutionPrint(ArrayList<Node> path){
-        System.out.println("No solution found.");
-        List<String> pathNumber = new ArrayList<>();
-        for (int i=0;i <= 1000;i++) {
-            String formatted = String.format("%03d", path.get(i).nodeNumbers);
-            pathNumber.add(formatted);
-        }
-        System.out.println(String.join(",",pathNumber));
-
     }
 }
