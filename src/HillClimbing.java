@@ -23,8 +23,12 @@ public class HillClimbing extends AbstractSearch {
         stack.add(startNode);
         while (!stack.isEmpty()) {
             Node current = stack.pop();
-            path.add(current);
+//            if (!current.isRepeated(explored)) {
+//                explored.add(current);
+//            }
+            explored.add(current);
             if (current.nodeNumbers == goalNode.nodeNumbers) {
+                path.add(current);
                 do {
                     path.add(current.getParentNode());
                     current = current.getParentNode();
@@ -56,15 +60,14 @@ public class HillClimbing extends AbstractSearch {
 
         }
         System.out.println("No solution found.");
-        for (Node pa : path) {
-            System.out.print(pa.nodeNumbers + ",");
-        }
+        print(explored);
         return false;
     }
     public void print(ArrayList<Node> path) {
         List<String> pathNumber = new ArrayList<>();
         for (Node n : path) {
-            pathNumber.add(String.valueOf(n.nodeNumbers));
+            String formatted = String.format("%03d", n.nodeNumbers);
+            pathNumber.add(formatted);
         }
         System.out.println(String.join(",",pathNumber));
     }

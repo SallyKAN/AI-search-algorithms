@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public class DepthLimitSearch {
@@ -9,31 +10,46 @@ public class DepthLimitSearch {
     Node goalNode;
     int depth;
     int limit;
+    boolean isFound = false;
+    ArrayList<Node> totalExplored;
 
-    public DepthLimitSearch(Node startNode, Node goalNode, int limit) {
+    public DepthLimitSearch(Node startNode, Node goalNode, int limit, ArrayList<Node>
+                            totalExplored) {
         this.startNode = startNode;
         this.goalNode = goalNode;
         this.limit = limit;
+        this.totalExplored = totalExplored;
     }
 
-    public boolean compute() {
+    public ArrayList<Node> compute() {
         Stack<Node> stack = new Stack<>();
         ArrayList<Node> explored = new ArrayList<>();
+        ArrayList<Node> exploredOnce = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         stack.add(startNode);
         depth = 0;
         while (depth <= limit) {
             while (!stack.isEmpty()) {
                 Node current = stack.pop();
-                path.add(current);
+//                if (!current.isRepeated(explored)) {
+//                    explored.add(current);
+//                }
+//                if (!current.isRepeated(exploredOnce)) {
+//                    exploredOnce.add(current);
+//                }
+                exploredOnce.add(current);
                 if (current.nodeNumbers == goalNode.nodeNumbers) {
-                    for (Node n : path) {
-                        System.out.print(n.nodeNumbers + ",");
+                    path.add(current);
+                    do {
+                        path.add(current.getParentNode());
+                        current = current.getParentNode();
+                    } while (current.getParentNode() != null);
+                    Collections.reverse(path);
+                    if ((totalExplored.size()+exploredOnce.size()) <= 1000) {
+                        print(path);
                     }
-                    for (Node n: explored){
-                        System.out.print(n.nodeNumbers + ",");
-                    }
-                    return true;
+                    isFound = true;
+                    return exploredOnce;
 
                 } else {
 //                    Collections.reverse(current.getChildren());
@@ -57,11 +73,18 @@ public class DepthLimitSearch {
             depth++;
 
         }
-        for (Node n : path) {
-            System.out.print(n.nodeNumbers+",");
+        for (Node n : exploredOnce) {
+            explored.add(n);
         }
-        System.out.println();
-        return false;
+        return explored;
+    }
+    public void print(ArrayList<Node> path) {
+        List<String> pathNumber = new ArrayList<>();
+        for (Node n : path) {
+            String formatted = String.format("%03d", n.nodeNumbers);
+            pathNumber.add(formatted);
+        }
+        System.out.println(String.join(",",pathNumber));
     }
 }
 

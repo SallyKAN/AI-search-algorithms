@@ -27,7 +27,7 @@ public class ThreeDigits {
             List<String> lines = Files.readAllLines(Paths.get(args[1]));
             Node startNode = new Node(Integer.parseInt(lines.get(0)));
             List<Integer> forbNumbers = new ArrayList<>();
-            if (lines.size()== 3) {
+            if (lines.size()== 3 && (!lines.get(2).isEmpty())) {
                 String[] forbStrings = lines.get(2).split(",");
                 for (String st : forbStrings) {
                     forbNumbers.add(Integer.valueOf(st));
@@ -47,8 +47,7 @@ public class ThreeDigits {
             }
             else if(args[0].equals("I")){
                 IterativeDS ids = new IterativeDS(startNode,goalNode);
-                if(ids.compute())
-                    System.out.print("Path Found!");
+                ids.compute();
             }
             else if (args[0].equals("G")){
                 Greedy gr = new Greedy(startNode,goalNode);

@@ -22,8 +22,13 @@ public class BreadthFirstSearch extends AbstractSearch {
         queue.add(this.startNode);
         while (!queue.isEmpty()) {
 //            System.out.println(queue.peek().nodeNumbers);
-            Node current = queue.poll();
-            explored.add(current);
+            Node current = queue.remove();
+//            if (explored.size() == 47){
+//                System.out.println("test");
+//            }
+            if (!current.isRepeated(explored)) {
+                explored.add(current);
+            }
             if (current.nodeNumbers == (this.goalNode.nodeNumbers)) {
                 path.add(current);
                 do {
@@ -53,6 +58,11 @@ public class BreadthFirstSearch extends AbstractSearch {
 //                    }
 //                if(queue.size() > 864)
 //                    System.out.println(current.nodeNumbers);
+                if(explored.size()>1000) {
+                    System.out.println("No solution found.");
+                    print(explored);
+                    return false;
+                }
             }
 
         }
@@ -64,7 +74,8 @@ public class BreadthFirstSearch extends AbstractSearch {
     public void print(ArrayList<Node> path) {
         List<String> pathNumber = new ArrayList<>();
         for (Node n : path) {
-            pathNumber.add(String.valueOf(n.nodeNumbers));
+            String formatted = String.format("%03d", n.nodeNumbers);
+            pathNumber.add(formatted);
         }
         System.out.println(String.join(",",pathNumber));
     }

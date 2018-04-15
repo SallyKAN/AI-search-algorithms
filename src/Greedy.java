@@ -24,13 +24,21 @@ public class Greedy extends AbstractSearch{
         while (!nodeStack.isEmpty()){
 //            int max = Collections.min(valueStack);
 //            Node current = new Node(max);
-            Node current = nodeStack.pop();
+            Node current = nodeStack.peek();
             Stack<Node> reverseStack = nodeStack;
             Collections.reverse(reverseStack);
-            for (Node n: reverseStack){
-                if(n.getHeuristic(goalNode) < current.getHeuristic(goalNode))
+//            for (Node n: reverseStack){
+//                if(n.getHeuristic(goalNode) < current.getHeuristic(goalNode))
+//                    current = n;
+//            }
+            for (Node n : reverseStack) {
+                if (n.getHeuristic(goalNode) < current.getHeuristic(goalNode)) {
                     current = n;
+                }
             }
+//            if (!current.isRepeated(explored)) {
+//                explored.add(current);
+//            }
             explored.add(current);
             if(current.nodeNumbers == goalNode.nodeNumbers){
                 path.add(current);
@@ -51,10 +59,15 @@ public class Greedy extends AbstractSearch{
                         e.printStackTrace();
                     }
                 }
-                nodeStack.clear();
+                nodeStack.remove(current);
                 ArrayList<Node> reverseChildren = current.getChildren();
                 Collections.reverse(reverseChildren);
                 nodeStack.addAll(current.getChildren());
+                if(explored.size()>1000) {
+                    System.out.println("No solution found.");
+                    print(explored);
+                    return false;
+                }
             }
 
         }
@@ -63,7 +76,8 @@ public class Greedy extends AbstractSearch{
     public void print(ArrayList<Node> path) {
         List<String> pathNumber = new ArrayList<>();
         for (Node n : path) {
-            pathNumber.add(String.valueOf(n.nodeNumbers));
+            String formatted = String.format("%03d", n.nodeNumbers);
+            pathNumber.add(formatted);
         }
         System.out.println(String.join(",",pathNumber));
     }

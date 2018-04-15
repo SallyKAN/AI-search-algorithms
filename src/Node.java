@@ -147,6 +147,17 @@ public class Node {
             digitList.add(digit % 10 );
             digit = digit / 10;
         }
+        if (digitList.size() == 2)
+            digitList.add(0);
+        else if (digitList.size() == 1){
+            digitList.add(0);
+            digitList.add(0);
+        }
+        else if (digitList.size() == 0){
+            digitList.add(0);
+            digitList.add(0);
+            digitList.add(0);
+        }
         Collections.reverse(digitList);
         return digitList;
     }
@@ -172,10 +183,35 @@ public class Node {
     public void setLevel(int level){this.level = level;}
     public int getLevel(){return this.level;}
     public Node getParentNode(){return this.parentNode;}
+    public ArrayList<Integer> getChildrenNumbers(){
+        ArrayList<Integer> childrenNumbers = new ArrayList<>();
+        for (Node n: this.getChildren()){
+            if (n != null)
+            childrenNumbers.add(n.nodeNumbers);
+        }
+        return childrenNumbers;
+    }
+    public boolean isRepeated(ArrayList<Node> explored){
+        for (Node n: explored){
+            if (this.getChildren().isEmpty()){
+                try {
+                    this.generateChildren();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            ArrayList<Integer> child = this.getChildrenNumbers();
+            ArrayList<Integer> com = n.getChildrenNumbers();
+            if ((this.nodeNumbers == n.nodeNumbers)&&(child.equals(com)))
+                return true;
+        }
+        return false;
+    }
     public static void main(String[] agrs) throws CloneNotSupportedException {
-        Node test = new Node(311);
+        Node test = new Node(220);
         Node startNode = new Node(320);
         Node goalNode = new Node(110);
+
         System.out.println(test.getTotalCost(startNode,goalNode));
         System.out.println();
 //        System.out.println(test.getDigitList());
