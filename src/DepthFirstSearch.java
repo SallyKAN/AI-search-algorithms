@@ -23,10 +23,15 @@ public class DepthFirstSearch extends AbstractSearch{
         stack.push(startNode);
         while(!stack.isEmpty()){
             Node current = stack.pop();
-            if (!current.isRepeated(explored)) {
-                explored.add(current);
+//            if (current.isRepeated(explored))
+//                current = stack.pop();
+            while (current.isRepeated(explored)){
+                if(stack.isEmpty())
+                    break;
+                current = stack.pop();
             }
             explored.add(current);
+            //explored.add(current);
             if(current.nodeNumbers == goalNode.nodeNumbers){
                 path.add(current);
                 while (current.getParentNode()!= null){
@@ -54,8 +59,7 @@ public class DepthFirstSearch extends AbstractSearch{
                 Collections.reverse(reverseChildren);
                 stack.addAll(reverseChildren);
                 if(explored.size()>1000) {
-                    System.out.println("No solution found.");
-                    print(explored);
+                    noSolutionPrint(explored);
                     return false;
                 }
 
@@ -71,5 +75,14 @@ public class DepthFirstSearch extends AbstractSearch{
         }
         System.out.println(String.join(",",pathNumber));
     }
+    public void noSolutionPrint(ArrayList<Node> path){
+        System.out.println("No solution found.");
+        List<String> pathNumber = new ArrayList<>();
+        for (int i=0;i <1000;i++) {
+            String formatted = String.format("%03d", path.get(i).nodeNumbers);
+            pathNumber.add(formatted);
+        }
+        System.out.println(String.join(",",pathNumber));
 
+    }
 }

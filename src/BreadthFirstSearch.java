@@ -26,9 +26,12 @@ public class BreadthFirstSearch extends AbstractSearch {
 //            if (explored.size() == 47){
 //                System.out.println("test");
 //            }
-            if (!current.isRepeated(explored)) {
-                explored.add(current);
+            while (current.isRepeated(explored)){
+                if(queue.isEmpty())
+                    break;
+                current = queue.remove();
             }
+            explored.add(current);
             if (current.nodeNumbers == (this.goalNode.nodeNumbers)) {
                 path.add(current);
                 do {
