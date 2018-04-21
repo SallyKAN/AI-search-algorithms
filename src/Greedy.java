@@ -21,24 +21,22 @@ public class Greedy extends AbstractSearch{
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         nodeStack.add(startNode);
+        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
+            path.add(startNode);
+            explored.add(startNode);
+            print(path);
+            print(explored);
+            return true;
+        }
         while (!nodeStack.isEmpty()){
-//            int max = Collections.min(valueStack);
-//            Node current = new Node(max);
             Node current = nodeStack.peek();
             Stack<Node> reverseStack = nodeStack;
             Collections.reverse(reverseStack);
-//            for (Node n: reverseStack){
-//                if(n.getHeuristic(goalNode) < current.getHeuristic(goalNode))
-//                    current = n;
-//            }
             for (Node n : reverseStack) {
                 if (n.getHeuristic(goalNode) < current.getHeuristic(goalNode)) {
                     current = n;
                 }
             }
-//            if (!current.isRepeated(explored)) {
-//                explored.add(current);
-//            }
             explored.add(current);
             if(current.nodeNumbers == goalNode.nodeNumbers){
                 path.add(current);

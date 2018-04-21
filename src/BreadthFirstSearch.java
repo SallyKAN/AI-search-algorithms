@@ -12,14 +12,17 @@ public class BreadthFirstSearch extends AbstractSearch {
     }
 
     public boolean compute() {
-        if (this.startNode.nodeNumbers == (goalNode.nodeNumbers)) {
-            System.out.println("Goal Node Found!");
-            System.out.println(startNode.nodeNumbers);
-        }
         Queue<Node> queue = new LinkedList<>();
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         queue.add(this.startNode);
+        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
+            path.add(startNode);
+            explored.add(startNode);
+            print(path);
+            print(explored);
+            return true;
+        }
         while (!queue.isEmpty()) {
 //            System.out.println(queue.peek().nodeNumbers);
             Node current = queue.remove();
@@ -34,10 +37,11 @@ public class BreadthFirstSearch extends AbstractSearch {
             explored.add(current);
             if (current.nodeNumbers == (this.goalNode.nodeNumbers)) {
                 path.add(current);
-                do {
-                    path.add(current.getParentNode());
-                    current = current.getParentNode();
-                } while (current.getParentNode() != null);
+                    do {
+                        path.add(current.getParentNode());
+                        current = current.getParentNode();
+                    } while (current.getParentNode() != null);
+
                 Collections.reverse(path);
                 print(path);
                 print(explored);

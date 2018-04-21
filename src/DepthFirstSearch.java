@@ -13,14 +13,17 @@ public class DepthFirstSearch extends AbstractSearch{
         this.goalNode = goalNode;
     }
     public boolean compute(){
-        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
-            System.out.println("Goal Node Found at 0 depth");
-            System.out.println(startNode.nodeNumbers);
-        }
         Stack<Node> stack = new Stack<>();
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         stack.push(startNode);
+        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
+            path.add(startNode);
+            explored.add(startNode);
+            print(path);
+            print(explored);
+            return true;
+        }
         while(!stack.isEmpty()){
             Node current = stack.pop();
 //            if (current.isRepeated(explored))

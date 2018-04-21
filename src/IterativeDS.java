@@ -21,6 +21,13 @@ public class IterativeDS extends AbstractSearch {
         stack.add(startNode);
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
+        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
+            path.add(startNode);
+            explored.add(startNode);
+            print(path);
+            print(explored);
+            return true;
+        }
         while (true){
             DepthLimitSearch dls = new DepthLimitSearch(startNode,goalNode,limit,explored);
             for (Node n:dls.compute()){

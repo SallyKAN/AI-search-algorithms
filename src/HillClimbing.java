@@ -21,11 +21,15 @@ public class HillClimbing extends AbstractSearch {
         ArrayList<Node> explored = new ArrayList<>();
         ArrayList<Node> path = new ArrayList<>();
         stack.add(startNode);
+        if(this.startNode.nodeNumbers == goalNode.nodeNumbers){
+            path.add(startNode);
+            explored.add(startNode);
+            print(path);
+            print(explored);
+            return true;
+        }
         while (!stack.isEmpty()) {
             Node current = stack.pop();
-//            if (!current.isRepeated(explored)) {
-//                explored.add(current);
-//            }
             explored.add(current);
             if (current.nodeNumbers == goalNode.nodeNumbers) {
                 path.add(current);
@@ -49,12 +53,11 @@ public class HillClimbing extends AbstractSearch {
                 ArrayList<Node> children = current.getChildren();
                 Collections.reverse(children);
                 for (Node n : children) {
-                    if (n.getHeuristic(goalNode) < current.getHeuristic(goalNode)) {
+                    if ( n.getHeuristic(goalNode) < current.getHeuristic(goalNode)) {
                         current = n;
                         stack.push(n);
                     }
                 }
-
 
             }
 

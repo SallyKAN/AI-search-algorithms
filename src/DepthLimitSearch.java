@@ -31,9 +31,6 @@ public class DepthLimitSearch {
         while (depth <= limit) {
             while (!stack.isEmpty()) {
                 Node current = stack.pop();
-//                if (!current.isRepeated(explored)) {
-//                    explored.add(current);
-//                }
                 while (current.isRepeated(exploredOnce)){
                     if(stack.isEmpty())
                         break;
@@ -57,9 +54,6 @@ public class DepthLimitSearch {
                     return exploredOnce;
 
                 } else {
-//                    Collections.reverse(current.getChildren());
-//                    for (Node n:current.getChildren())
-//                    stack.push(n);
                     if (current.getChildren().isEmpty()) {
                         try {
                             current.generateChildren();
@@ -76,7 +70,6 @@ public class DepthLimitSearch {
                 }
             }
             depth++;
-
         }
         for (Node n : exploredOnce) {
             explored.add(n);

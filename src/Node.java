@@ -1,8 +1,4 @@
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,13 +70,6 @@ public class Node {
             return null;
         builder.set(location,String.valueOf(digitNumber));
         int returnInt = Integer.valueOf(String.join("",builder));
-//        System.out.println(builder.toString());
-//        StringBuilder bu = new StringBuilder();
-//        for (String s:builder){
-//            bu.append(s);
-//        }
-//        System.out.println(bu.toString());
-//        int returnInt = Integer.valueOf(bu.toString());
         if(parentNode.forbNumbers.contains(returnInt)){
             return null;
         }
@@ -109,31 +98,10 @@ public class Node {
         return childNodes;
      }
 
-//     public ArrayList<Node> generateAllNodes(int startNumber, int goalNumber){
-//         ArrayList<Node> allNodes = new ArrayList<>();
-//         Node node = new Node(startNumber);
-//         allNodes.add(node);
-//         ArrayList<Node> nodes = node.getChildren();
-//         for(Node n: nodes){
-//             allNodes.add(n);
-//             do {
-//                 Node childNode = new Node(n.nodeNumbers);
-//                 allNodes.add(childNode);
-//             }while (n.nodeNumbers != goalNumber);
-//         }
-//     }
-    public boolean removeChild(Node n){
-        return false;
-    }
     public int getNodeNumbers(){
         return nodeNumbers;
     }
     public int getHeuristic(Node goalNode){
-//        int abValue = abs(this.nodeNumbers - goalNode.nodeNumbers);
-////        int sum = 0;
-////        while (abValue > 0) {
-////            sum = sum + abValue % 10;
-////            abValue = abValue / 10;
         int sum=0;
         for (int i = 0;i<3;i++){
             sum = sum + abs(this.getDigitList().get(i) - goalNode.getDigitList().get(i));
@@ -162,7 +130,6 @@ public class Node {
         return digitList;
     }
     public int getCostSoFar() {
-//        Node back = this.getParentNode();
         return this.level;
     }
     public int getTotalCost(Node startNode,Node goalNode)  {
@@ -214,8 +181,6 @@ public class Node {
 
         System.out.println(test.getTotalCost(startNode,goalNode));
         System.out.println();
-//        System.out.println(test.getDigitList());
-//        System.out.println(test.getCostSoFar(startNode));
     }
 
 }
